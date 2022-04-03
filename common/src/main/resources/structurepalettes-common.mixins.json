@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "package": "io.github.orlouge.structurepalettes.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "client": [
+  ],
+  "mixins": [
+    "ChunkGeneratorMixin",
+    "ConfiguredFeatureMixin",
+    "ConfiguredStructureFeatureMixin",
+    "FeatureMixin",
+    "FeaturePoolElementMixin",
+    "PlacedFeatureMixin",
+    "PoolStructurePieceMixin",
+    "SimpleStructurePieceMixin",
+    "SinglePoolElementMixin",
+    "StructureMixin",
+    "StructurePieceMixin",
+    "StructureStartMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

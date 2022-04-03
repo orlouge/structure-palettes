@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "structurepalettes",
+  "version": "${version}",
+  "name": "Structure Palettes",
+  "description": "A mod that randomly replaces blocks in structures",
+  "authors": [
+    "orlouge"
+  ],
+  "contact": {
+    "homepage": "https://github.com/orlouge",
+    "sources": "https://github.com/orlouge/structure-palettes"
+  },
+  "license": "MIT",
+  "icon": "assets/structurepalettes/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.orlouge.structurepalettes.fabric.StructurePalettesModFabric"
+    ]
+  },
+  "mixins": [
+    "structurepalettes.mixins.json",
+    "structurepalettes-common.mixins.json"
+  ],
+  "depends": {
+    "minecraft": ">=1.18.2"
+  }
+}
