@@ -8,14 +8,9 @@
     "ChunkGeneratorMixin",
     "ConfiguredFeatureMixin",
     "ConfiguredStructureFeatureMixin",
-    "FeatureMixin",
-    "FeaturePoolElementMixin",
     "PlacedFeatureMixin",
     "PoolStructurePieceMixin",
-    "SimpleStructurePieceMixin",
     "SinglePoolElementMixin",
-    "StructureMixin",
-    "StructurePieceMixin",
     "StructureStartMixin"
   ],
   "injectors": {

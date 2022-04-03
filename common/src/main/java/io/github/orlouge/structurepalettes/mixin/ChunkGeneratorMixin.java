@@ -2,7 +2,6 @@ package io.github.orlouge.structurepalettes.mixin;
 
 import io.github.orlouge.structurepalettes.StructurePalettesMod;
 import io.github.orlouge.structurepalettes.interfaces.HasModifiedBiomeList;
-import io.github.orlouge.structurepalettes.proxy.RegistryEntryListProxy;
 import io.github.orlouge.structurepalettes.transformers.StructureTransformerManager;
 import net.minecraft.structure.StructureSet;
 import net.minecraft.util.Identifier;
