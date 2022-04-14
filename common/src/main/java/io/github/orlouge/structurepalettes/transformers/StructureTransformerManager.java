@@ -51,7 +51,6 @@ public class StructureTransformerManager {
                         if (entry.transformGroup == null || entry.transformGroup.length() == 0) {
                             this.groups.add(List.of(entry));
                         } else {
-                            StructurePalettesMod.LOGGER.info("Added " + entry.transformGroup + " to " + entry.structure);
                             namedGroups.computeIfAbsent(
                                     entry.transformGroup,
                                     g -> new LinkedList<>()
@@ -75,13 +74,10 @@ public class StructureTransformerManager {
         }
 
         private TransformEntry sampleTransformGroup(List<TransformEntry> entries, RegistryEntry<Biome> biome, Random rng) {
-            StructurePalettesMod.LOGGER.info("Sampling from " + entries.size() + " entries");
             for (TransformEntry entry : entries) {
                 if ((entry.biome == null || biome.matchesId(new Identifier(entry.biome))) && rng.nextFloat() * 100 < entry.chance) {
-                    StructurePalettesMod.LOGGER.info("Accepted entry of group " + (entry.transformGroup == null ? "(no group)" : entry.transformGroup) + " with chance " + entry.chance + " and palette group " + entry.paletteGroup);
                     return entry;
                 }
-                StructurePalettesMod.LOGGER.info("Rejected entry of group " + (entry.transformGroup == null ? "(no group)" : entry.transformGroup) + " with chance " + entry.chance);
             }
             return null;
         }

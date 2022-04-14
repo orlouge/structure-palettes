@@ -29,7 +29,6 @@ public class PlacedFeatureMixin {
         if (feature.getKey().isPresent()) {
             RegistryKey<ConfiguredFeature<?, ?>> key = feature.getKey().get();
             if (context.getWorld() instanceof StructureWorldAccessProxy) {
-                    StructurePalettesMod.LOGGER.info("PLACING TRANSFORMED (STRUCTURE) FEATURE: " + key.getValue());
                     return new FeaturePlacementContext(
                             ((StructureWorldAccessProxy) context.getWorld()).withContext(
                                 ctx -> { ctx.feature = key.getValue(); }),
@@ -41,7 +40,6 @@ public class PlacedFeatureMixin {
                 StructureTransformer transformer = stProvider.getStructureTransformer(key.getValue(), biome, random);
                 if (transformer != null && !transformer.isNop()) {
                     transformer = transformer.withContext(ctx -> { ctx.feature = key.getValue(); });
-                    StructurePalettesMod.LOGGER.info("PLACING TRANSFORMED FEATURE: " + key.getValue());
                     return new FeaturePlacementContext(
                             new StructureWorldAccessProxy(context.getWorld(), transformer),
                             context.getChunkGenerator(),

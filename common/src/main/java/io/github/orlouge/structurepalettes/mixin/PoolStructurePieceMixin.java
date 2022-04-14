@@ -28,7 +28,6 @@ public class PoolStructurePieceMixin {
             Either<Identifier, Structure> loc = elem.getLocation();
             if (loc.left().isPresent()) {
                 return proxy.withContext(ctx -> {
-                    StructurePalettesMod.LOGGER.info("POOL ELEMENT " + loc.left().get());
                     ctx.poolelement = loc.left().get();
                 });
             }

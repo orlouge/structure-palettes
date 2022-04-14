@@ -89,6 +89,10 @@ public class Palette {
         return builder.toString();
     }
 
+    public int size() {
+        return this.references.size() + this.replacements.size();
+    }
+
     private static class Mapping {
         private final TargetBlock target;
 

@@ -16,7 +16,7 @@ public class PaletteGroup {
     public PaletteGroup(Collection<Pair<Double, Palette>> palettes) {
         this.palettes = new WeightedRandomList<>();
         for (Pair<Double, Palette> palette : palettes) {
-            this.palettes.add(palette.getLeft(), palette.getRight());
+            this.palettes.add(palette.getLeft() * palette.getRight().size(), palette.getRight());
         }
     }
 
@@ -53,13 +53,8 @@ public class PaletteGroup {
             if (newSample == null) {
                 return null;
             } else {
-                StructurePalettesMod.LOGGER.info("Current palette:" + super.toString());
-                StructurePalettesMod.LOGGER.info("Sampling palette:" + newSample);
                 if (this.disjoint(newSample)) {
-                    StructurePalettesMod.LOGGER.info("Sampled.");
                     this.merge(newSample);
-                } else {
-                    StructurePalettesMod.LOGGER.info("Not disjoint.");
                 }
                 return newSample;
             }
@@ -67,7 +62,6 @@ public class PaletteGroup {
 
         @Override
         public Identifier transform(Identifier id, MappingContext context, Random rng) {
-            //ExampleMod.LOGGER.info("Transforming: " + id);
             Identifier target = super.transform(id, context, rng);
             if (target == null) {
                 return sampleMerge(rng) == null ? null : this.transform(id, context, rng);
@@ -78,7 +72,6 @@ public class PaletteGroup {
 
         @Override
         public Identifier locate(VirtualIdentifier id, MappingContext context, Random rng) {
-            //ExampleMod.LOGGER.info("Locating: " + id);
             Identifier target = super.locate(id, context, rng);
             if (target == null) {
                 return sampleMerge(rng) == null ? null : this.locate(id, context, rng);

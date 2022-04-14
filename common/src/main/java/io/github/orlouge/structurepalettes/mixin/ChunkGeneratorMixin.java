@@ -34,7 +34,6 @@ public class ChunkGeneratorMixin {
                 dynamicRegistryManager.get(Registry.BIOME_KEY).getEntry(biomeKey).ifPresent(entry -> {
                     entries.add(entry);
                     modified[0] = true;
-                    StructurePalettesMod.LOGGER.info("Added " + structureId + " to " + biomeId);
                 });
             }
             RegistryEntryList<Biome> entryList;
