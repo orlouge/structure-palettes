@@ -45,7 +45,11 @@ public class PaletteGroup {
 
         public PaletteGroupSampler(PaletteGroup group) {
             super(new HashMap<>(), new HashMap<>());
-            this.unusedPalettes = new WeightedRandomList<Palette>(group.palettes);
+            if (group != null) {
+                this.unusedPalettes = new WeightedRandomList<>(group.palettes);
+            } else {
+                this.unusedPalettes = new WeightedRandomList<>();
+            }
         }
 
         private Palette sampleMerge(Random rng) {
