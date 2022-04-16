@@ -74,7 +74,9 @@ public class StructureTransformerManager {
         }
 
         private TransformEntry sampleTransformGroup(List<TransformEntry> entries, RegistryEntry<Biome> biome, Random rng) {
-            for (TransformEntry entry : entries) {
+            List<TransformEntry> shuffled = new ArrayList<>(entries);
+            Collections.shuffle(shuffled, rng);
+            for (TransformEntry entry : shuffled) {
                 if ((entry.biome == null || biome.matchesId(new Identifier(entry.biome))) && rng.nextFloat() * 100 < entry.chance) {
                     return entry;
                 }
