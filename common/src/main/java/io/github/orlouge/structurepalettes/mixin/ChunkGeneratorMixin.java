@@ -9,7 +9,7 @@ import net.minecraft.util.registry.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.gen.structure.Structure;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -20,11 +20,11 @@ import java.util.List;
 @Mixin(ChunkGenerator.class)
 public class ChunkGeneratorMixin {
     @ModifyVariable(
-            method = "method_41044(Lnet/minecraft/structure/StructureSet$WeightedEntry;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/util/registry/DynamicRegistryManager;Lnet/minecraft/structure/StructureManager;JLnet/minecraft/world/chunk/Chunk;Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/util/math/ChunkSectionPos;)Z",
+            method = "trySetStructureStart(Lnet/minecraft/structure/StructureSet$WeightedEntry;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/util/registry/DynamicRegistryManager;Lnet/minecraft/world/gen/noise/NoiseConfig;Lnet/minecraft/structure/StructureTemplateManager;JLnet/minecraft/world/chunk/Chunk;Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/util/math/ChunkSectionPos;)Z",
             at = @At("STORE")
     )
     public RegistryEntryList<Biome> modifyStructureBiomes(RegistryEntryList<Biome> biomes, StructureSet.WeightedEntry weightedEntry, StructureAccessor structureAccessor, DynamicRegistryManager dynamicRegistryManager) {
-        ConfiguredStructureFeature<?, ?> structure = weightedEntry.structure().value();
+        Structure structure = weightedEntry.structure().value();
         if (structure instanceof HasModifiedBiomeList modifiedBiomes && modifiedBiomes.getModifiedBiomeList() == null) {
             Identifier structureId = weightedEntry.structure().getKey().get().getValue();
             List<RegistryEntry<Biome>> entries = new LinkedList<>();

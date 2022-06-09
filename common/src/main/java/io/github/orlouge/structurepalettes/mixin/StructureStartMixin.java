@@ -4,10 +4,12 @@ import io.github.orlouge.structurepalettes.transformers.StructureTransformer;
 import io.github.orlouge.structurepalettes.transformers.StructureTransformerProvider;
 import io.github.orlouge.structurepalettes.transformers.StructureTransformerReceiver;
 import io.github.orlouge.structurepalettes.proxy.StructureWorldAccessProxy;
+import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.structure.StructureStart;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.Heightmap;
@@ -16,7 +18,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.gen.structure.Structure;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,17 +26,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.List;
-import java.util.Random;
 
 @Mixin(StructureStart.class)
 public abstract class StructureStartMixin implements StructureTransformerReceiver {
     private StructureTransformer structureTransformer = null;
 
     @Shadow public abstract List<StructurePiece> getChildren();
-
-    @Shadow @Final private ConfiguredStructureFeature<?, ?> feature;
-
+    
     @Shadow @Final private ChunkPos pos;
+
+    @Shadow @Final private Structure structure;
 
     @Override
     public void setStructureTransformer(StructureTransformer transformer) {
@@ -46,22 +47,25 @@ public abstract class StructureStartMixin implements StructureTransformerReceive
     }
 
     @ModifyVariable(
-            method = "place(Lnet/minecraft/world/StructureWorldAccess;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/world/gen/chunk/ChunkGenerator;Ljava/util/Random;Lnet/minecraft/util/math/BlockBox;Lnet/minecraft/util/math/ChunkPos;)V",
+            method = "place(Lnet/minecraft/world/StructureWorldAccess;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/world/gen/chunk/ChunkGenerator;Lnet/minecraft/util/math/random/Random;Lnet/minecraft/util/math/BlockBox;Lnet/minecraft/util/math/ChunkPos;)V",
             at = @At("LOAD")
     )
     public StructureWorldAccess onPlace(StructureWorldAccess world, StructureWorldAccess world2, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockBox chunkBox, ChunkPos chunkPos) {
         if (this.structureTransformer == null) {
-            world.getRegistryManager().get(Registry.CONFIGURED_STRUCTURE_FEATURE_KEY).getKey((ConfiguredStructureFeature<?, ?>) this.feature).ifPresent(
+            world.getRegistryManager().get(Registry.STRUCTURE_KEY).getKey((Structure) this.structure).ifPresent(
                     k -> {
-                        if (this.feature instanceof StructureTransformerProvider stProvider) {
+                        if (this.structure instanceof StructureTransformerProvider stProvider) {
                             int x = this.pos.getCenterX();
                             int z = this.pos.getCenterZ();
-                            int y = chunkGenerator.getHeightInGround(x, z, Heightmap.Type.WORLD_SURFACE_WG, world);
-                            RegistryEntry<Biome> biome = chunkGenerator.getBiomeForNoiseGen(BiomeCoords.fromBlock(x), BiomeCoords.fromBlock(y), BiomeCoords.fromBlock(z));
-                        /*
-                        ChunkRandom chunkRandom = new ChunkRandom(new AtomicSimpleRandom(0L));
-                        chunkRandom.setCarverSeed(world.getSeed(), chunkPos.x, chunkPos.z);
-                         */
+                            int y;
+                            if (world.getChunkManager() instanceof ServerChunkManager serverChunkManager) {
+                                y = chunkGenerator.getHeightInGround(x, z, Heightmap.Type.WORLD_SURFACE_WG, world, serverChunkManager.getNoiseConfig());
+                            } else {
+                                y = 64;
+                            }
+                            
+                            RegistryEntry<Biome> biome = world.getBiomeForNoiseGen(BiomeCoords.fromBlock(x), BiomeCoords.fromBlock(y), BiomeCoords.fromBlock(z));
+                            
                             this.setStructureTransformer(
                                     stProvider.getStructureTransformer(k.getValue(), biome, random)
                             );

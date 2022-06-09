@@ -24,6 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.shape.VoxelShape;
@@ -39,10 +40,10 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.level.ColorResolver;
 import net.minecraft.world.tick.QueryableTickScheduler;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -313,18 +314,18 @@ public class StructureWorldAccessProxy implements StructureWorldAccess {
     }
 
     @Override
-    public void emitGameEvent(GameEvent event, BlockPos pos) {
-        this.world.emitGameEvent(event, pos);
+    public void emitGameEvent(@Nullable Entity entity, GameEvent event, Vec3d pos) {
+        this.world.emitGameEvent(entity, event, pos);
     }
 
     @Override
-    public void emitGameEvent(GameEvent event, Entity emitter) {
-        this.world.emitGameEvent(event, emitter);
+    public void emitGameEvent(GameEvent event, BlockPos pos, GameEvent.Emitter emitter) {
+        this.world.emitGameEvent(event, pos, emitter);
     }
 
     @Override
-    public void emitGameEvent(Entity entity, GameEvent event, Entity emitter) {
-        this.world.emitGameEvent(entity, event, emitter);
+    public void emitGameEvent(GameEvent event, Vec3d emitterPos, GameEvent.Emitter emitter) {
+        this.world.emitGameEvent(event, emitterPos, emitter);
     }
 
     @Override
@@ -719,5 +720,15 @@ public class StructureWorldAccessProxy implements StructureWorldAccess {
     @Override
     public int sectionIndexToCoord(int index) {
         return this.world.sectionIndexToCoord(index);
+    }
+
+    @Override
+    public void replaceWithStateForNeighborUpdate(Direction direction, BlockState neighborState, BlockPos pos, BlockPos neighborPos, int flags, int maxUpdateDepth) {
+        this.world.replaceWithStateForNeighborUpdate(direction, neighborState, pos, neighborPos, flags, maxUpdateDepth);
+    }
+
+    @Override
+    public float getPhototaxisFavor(BlockPos pos) {
+        return this.world.getPhototaxisFavor(pos);
     }
 }

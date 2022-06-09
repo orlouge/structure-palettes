@@ -1,10 +1,10 @@
 package io.github.orlouge.structurepalettes.mixin;
 
-import io.github.orlouge.structurepalettes.StructurePalettesMod;
 import io.github.orlouge.structurepalettes.transformers.StructureTransformer;
 import io.github.orlouge.structurepalettes.transformers.StructureTransformerProvider;
 import io.github.orlouge.structurepalettes.proxy.StructureWorldAccessProxy;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
@@ -16,12 +16,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-import java.util.Random;
-
 @Mixin(PlacedFeature.class)
 public class PlacedFeatureMixin {
     @ModifyVariable(
-            method = "generate(Lnet/minecraft/world/gen/feature/FeaturePlacementContext;Ljava/util/Random;Lnet/minecraft/util/math/BlockPos;)Z",
+            method = "generate(Lnet/minecraft/world/gen/feature/FeaturePlacementContext;Lnet/minecraft/util/math/random/Random;Lnet/minecraft/util/math/BlockPos;)Z",
             at = @At(value="LOAD", ordinal=1)
     )
     public FeaturePlacementContext generate(FeaturePlacementContext context, FeaturePlacementContext context2, Random random, BlockPos pos) {
@@ -36,7 +34,7 @@ public class PlacedFeatureMixin {
                             context.getPlacedFeature()
                     );
             } else if ((Object) feature.value() instanceof StructureTransformerProvider stProvider) {
-                RegistryEntry<Biome> biome = context.getChunkGenerator().getBiomeForNoiseGen(BiomeCoords.fromBlock(pos.getX()), BiomeCoords.fromBlock(pos.getY()), BiomeCoords.fromBlock(pos.getZ()));
+                RegistryEntry<Biome> biome =  context.getWorld().getBiomeForNoiseGen(BiomeCoords.fromBlock(pos.getX()), BiomeCoords.fromBlock(pos.getY()), BiomeCoords.fromBlock(pos.getZ()));
                 StructureTransformer transformer = stProvider.getStructureTransformer(key.getValue(), biome, random);
                 if (transformer != null && !transformer.isNop()) {
                     transformer = transformer.withContext(ctx -> { ctx.feature = key.getValue(); });

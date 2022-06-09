@@ -5,7 +5,7 @@ import io.github.orlouge.structurepalettes.StructurePalettesMod;
 import io.github.orlouge.structurepalettes.interfaces.HasLocation;
 import io.github.orlouge.structurepalettes.proxy.StructureWorldAccessProxy;
 import net.minecraft.structure.PoolStructurePiece;
-import net.minecraft.structure.Structure;
+import net.minecraft.structure.StructureTemplate;
 import net.minecraft.structure.pool.StructurePoolElement;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.StructureWorldAccess;
@@ -20,12 +20,12 @@ public class PoolStructurePieceMixin {
     @Shadow @Final protected StructurePoolElement poolElement;
 
     @ModifyVariable(
-            method = "generate(Lnet/minecraft/world/StructureWorldAccess;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/world/gen/chunk/ChunkGenerator;Ljava/util/Random;Lnet/minecraft/util/math/BlockBox;Lnet/minecraft/util/math/BlockPos;Z)V",
+            method = "generate(Lnet/minecraft/world/StructureWorldAccess;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/world/gen/chunk/ChunkGenerator;Lnet/minecraft/util/math/random/Random;Lnet/minecraft/util/math/BlockBox;Lnet/minecraft/util/math/BlockPos;Z)V",
             at = @At("LOAD")
     )
     public StructureWorldAccess addPoolElementContext(StructureWorldAccess world) {
         if (world instanceof StructureWorldAccessProxy proxy && (Object) this.poolElement instanceof HasLocation elem) {
-            Either<Identifier, Structure> loc = elem.getLocation();
+            Either<Identifier, StructureTemplate> loc = elem.getLocation();
             if (loc.left().isPresent()) {
                 return proxy.withContext(ctx -> {
                     ctx.poolelement = loc.left().get();

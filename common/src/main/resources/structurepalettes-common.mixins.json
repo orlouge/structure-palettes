@@ -7,7 +7,7 @@
   "mixins": [
     "ChunkGeneratorMixin",
     "ConfiguredFeatureMixin",
-    "ConfiguredStructureFeatureMixin",
+    "StructureMixin",
     "PlacedFeatureMixin",
     "PoolStructurePieceMixin",
     "SinglePoolElementMixin",

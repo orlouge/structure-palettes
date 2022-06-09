@@ -3,6 +3,7 @@ package io.github.orlouge.structurepalettes.palettes;
 import io.github.orlouge.structurepalettes.config.Condition;
 import io.github.orlouge.structurepalettes.config.PaletteEntry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.random.Random;
 
 import java.util.*;
 

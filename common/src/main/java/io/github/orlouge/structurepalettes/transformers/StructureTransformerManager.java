@@ -3,6 +3,7 @@ package io.github.orlouge.structurepalettes.transformers;
 import io.github.orlouge.structurepalettes.StructurePalettesMod;
 import io.github.orlouge.structurepalettes.config.TransformEntry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 
@@ -75,7 +76,7 @@ public class StructureTransformerManager {
 
         private TransformEntry sampleTransformGroup(List<TransformEntry> entries, RegistryEntry<Biome> biome, Random rng) {
             List<TransformEntry> shuffled = new ArrayList<>(entries);
-            Collections.shuffle(shuffled, rng);
+            Collections.shuffle(shuffled, new java.util.Random(rng.nextInt()));
             for (TransformEntry entry : shuffled) {
                 if ((entry.biome == null || biome.matchesId(new Identifier(entry.biome))) && rng.nextFloat() * 100 < entry.chance) {
                     return entry;

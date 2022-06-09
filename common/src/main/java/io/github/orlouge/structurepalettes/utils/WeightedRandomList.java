@@ -1,8 +1,9 @@
 package io.github.orlouge.structurepalettes.utils;
 
+import net.minecraft.util.math.random.Random;
+
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
 import java.util.TreeMap;
 
 public class WeightedRandomList<T> implements Iterable<T> {

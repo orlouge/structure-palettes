@@ -5,9 +5,9 @@ import io.github.orlouge.structurepalettes.config.TargetEntry;
 import io.github.orlouge.structurepalettes.utils.WeightedRandomList;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
+import net.minecraft.util.math.random.Random;
 
 import java.util.Collection;
-import java.util.Random;
 
 public class TargetBlock {
     private final WeightedRandomList<Either<Identifier, VirtualIdentifier>> targetBlocks = new WeightedRandomList<>();

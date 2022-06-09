@@ -4,11 +4,12 @@ import io.github.orlouge.structurepalettes.StructurePalettesMod;
 import io.github.orlouge.structurepalettes.utils.WeightedRandomList;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
+import net.minecraft.util.math.random.Random;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Random;
+
 
 public class PaletteGroup {
     private final WeightedRandomList<Palette> palettes;

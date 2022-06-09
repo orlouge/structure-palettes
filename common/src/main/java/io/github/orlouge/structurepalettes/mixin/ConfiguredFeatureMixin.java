@@ -4,12 +4,11 @@ import io.github.orlouge.structurepalettes.transformers.StructureTransformer;
 import io.github.orlouge.structurepalettes.transformers.StructureTransformerManager;
 import io.github.orlouge.structurepalettes.transformers.StructureTransformerProvider;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import org.spongepowered.asm.mixin.Mixin;
-
-import java.util.Random;
 
 @Mixin(ConfiguredFeature.class)
 public abstract class ConfiguredFeatureMixin implements StructureTransformerProvider {
