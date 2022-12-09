@@ -5,8 +5,8 @@ import io.github.orlouge.structurepalettes.palettes.Palette;
 import io.github.orlouge.structurepalettes.palettes.PaletteManager;
 import io.github.orlouge.structurepalettes.config.TransformEntry;
 import net.minecraft.block.*;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -48,7 +48,7 @@ public abstract class StructureTransformer {
         public BlockState transform(BlockState state) {
             return state.getBlock().getRegistryEntry().getKey()
                         .flatMap(k -> Optional.ofNullable(this.palette.transform(k.getValue(), this.ctx, this.rng)))
-                        .flatMap(Registry.BLOCK::getOrEmpty)
+                        .flatMap(Registries.BLOCK::getOrEmpty)
                         .map(newBlock -> newBlock.getStateWithProperties(state))
                         .orElse(state);
         }

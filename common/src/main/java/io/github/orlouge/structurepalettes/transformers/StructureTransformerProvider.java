@@ -2,7 +2,7 @@ package io.github.orlouge.structurepalettes.transformers;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 
 public interface StructureTransformerProvider {

@@ -14,6 +14,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -25,11 +29,12 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.DynamicRegistryManager;
-import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.ColorResolver;
 import net.minecraft.world.biome.source.BiomeAccess;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.Chunk;
@@ -38,8 +43,8 @@ import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.light.LightingProvider;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.level.ColorResolver;
 import net.minecraft.world.tick.QueryableTickScheduler;
+import net.minecraft.world.tick.TickPriority;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -117,6 +122,11 @@ public class StructureWorldAccessProxy implements StructureWorldAccess {
     @Override
     public void playSound(PlayerEntity player, BlockPos pos, SoundEvent sound, SoundCategory category, float volume, float pitch) {
         this.world.playSound(player, pos, sound, category, volume, pitch);
+    }
+
+    @Override
+    public void playSound(@Nullable PlayerEntity except, BlockPos pos, SoundEvent sound, SoundCategory category) {
+        this.world.playSound(except, pos, sound, category);
     }
 
     @Override
@@ -274,23 +284,23 @@ public class StructureWorldAccessProxy implements StructureWorldAccess {
     }
 
     @Override
-    public void createAndScheduleBlockTick(BlockPos pos, Block block, int delay, TickPriority priority) {
-        this.world.createAndScheduleBlockTick(pos, block, delay, priority);
+    public void scheduleBlockTick(BlockPos pos, Block block, int delay, TickPriority priority) {
+        this.world.scheduleBlockTick(pos, block, delay, priority);
     }
 
     @Override
-    public void createAndScheduleBlockTick(BlockPos pos, Block block, int delay) {
-        this.world.createAndScheduleBlockTick(pos, block, delay);
+    public void scheduleBlockTick(BlockPos pos, Block block, int delay) {
+        this.world.scheduleBlockTick(pos, block, delay);
     }
 
     @Override
-    public void createAndScheduleFluidTick(BlockPos pos, Fluid fluid, int delay, TickPriority priority) {
-        this.world.createAndScheduleFluidTick(pos, fluid, delay, priority);
+    public void scheduleFluidTick(BlockPos pos, Fluid fluid, int delay, TickPriority priority) {
+        this.world.scheduleFluidTick(pos, fluid, delay, priority);
     }
 
     @Override
-    public void createAndScheduleFluidTick(BlockPos pos, Fluid fluid, int delay) {
-        this.world.createAndScheduleFluidTick(pos, fluid, delay);
+    public void scheduleFluidTick(BlockPos pos, Fluid fluid, int delay) {
+        this.world.scheduleFluidTick(pos, fluid, delay);
     }
 
     @Override
@@ -574,7 +584,7 @@ public class StructureWorldAccessProxy implements StructureWorldAccess {
 
     @Override
     public int getColor(BlockPos pos, ColorResolver colorResolver) {
-        return this.world.getColor(pos, colorResolver);
+        return StructureWorldAccess.super.getColor(pos, colorResolver);
     }
 
     @Override
@@ -730,5 +740,15 @@ public class StructureWorldAccessProxy implements StructureWorldAccess {
     @Override
     public float getPhototaxisFavor(BlockPos pos) {
         return this.world.getPhototaxisFavor(pos);
+    }
+
+    @Override
+    public <T> RegistryWrapper<T> createCommandRegistryWrapper(RegistryKey<? extends Registry<? extends T>> registryRef) {
+        return this.world.createCommandRegistryWrapper(registryRef);
+    }
+
+    @Override
+    public FeatureSet getEnabledFeatures() {
+        return this.world.getEnabledFeatures();
     }
 }

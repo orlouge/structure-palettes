@@ -6,7 +6,7 @@ import io.github.orlouge.structurepalettes.transformers.StructureTransformerMana
 import io.github.orlouge.structurepalettes.transformers.StructureTransformerProvider;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.*;
+import net.minecraft.registry.entry.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.structure.Structure;
 import org.spongepowered.asm.mixin.Mixin;
@@ -43,7 +43,7 @@ public class StructureMixin implements StructureTransformerProvider, HasModified
     }
 
     @Inject(
-            method = "getValidBiomes()Lnet/minecraft/util/registry/RegistryEntryList;",
+            method = "getValidBiomes()Lnet/minecraft/registry/entry/RegistryEntryList;",
             at = @At("HEAD"),
             cancellable = true
     )

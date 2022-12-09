@@ -4,14 +4,14 @@ import io.github.orlouge.structurepalettes.transformers.StructureTransformer;
 import io.github.orlouge.structurepalettes.transformers.StructureTransformerProvider;
 import io.github.orlouge.structurepalettes.transformers.StructureTransformerReceiver;
 import io.github.orlouge.structurepalettes.proxy.StructureWorldAccessProxy;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.structure.StructureStart;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.biome.Biome;
@@ -52,7 +52,7 @@ public abstract class StructureStartMixin implements StructureTransformerReceive
     )
     public StructureWorldAccess onPlace(StructureWorldAccess world, StructureWorldAccess world2, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockBox chunkBox, ChunkPos chunkPos) {
         if (this.structureTransformer == null) {
-            world.getRegistryManager().get(Registry.STRUCTURE_KEY).getKey((Structure) this.structure).ifPresent(
+            world.getRegistryManager().get(RegistryKeys.STRUCTURE).getKey((Structure) this.structure).ifPresent(
                     k -> {
                         if (this.structure instanceof StructureTransformerProvider stProvider) {
                             int x = this.pos.getCenterX();

@@ -1,11 +1,14 @@
 package io.github.orlouge.structurepalettes.mixin;
 
-import io.github.orlouge.structurepalettes.StructurePalettesMod;
 import io.github.orlouge.structurepalettes.interfaces.HasModifiedBiomeList;
 import io.github.orlouge.structurepalettes.transformers.StructureTransformerManager;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.structure.StructureSet;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -20,7 +23,7 @@ import java.util.List;
 @Mixin(ChunkGenerator.class)
 public class ChunkGeneratorMixin {
     @ModifyVariable(
-            method = "trySetStructureStart(Lnet/minecraft/structure/StructureSet$WeightedEntry;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/util/registry/DynamicRegistryManager;Lnet/minecraft/world/gen/noise/NoiseConfig;Lnet/minecraft/structure/StructureTemplateManager;JLnet/minecraft/world/chunk/Chunk;Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/util/math/ChunkSectionPos;)Z",
+            method = "trySetStructureStart(Lnet/minecraft/structure/StructureSet$WeightedEntry;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/registry/DynamicRegistryManager;Lnet/minecraft/world/gen/noise/NoiseConfig;Lnet/minecraft/structure/StructureTemplateManager;JLnet/minecraft/world/chunk/Chunk;Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/util/math/ChunkSectionPos;)Z",
             at = @At("STORE")
     )
     public RegistryEntryList<Biome> modifyStructureBiomes(RegistryEntryList<Biome> biomes, StructureSet.WeightedEntry weightedEntry, StructureAccessor structureAccessor, DynamicRegistryManager dynamicRegistryManager) {
@@ -30,8 +33,8 @@ public class ChunkGeneratorMixin {
             List<RegistryEntry<Biome>> entries = new LinkedList<>();
             boolean[] modified = {false};
             for (Identifier biomeId : StructureTransformerManager.getAdditionalBiomes(structureId)) {
-                RegistryKey<Biome> biomeKey = RegistryKey.of(Registry.BIOME_KEY, biomeId);
-                dynamicRegistryManager.get(Registry.BIOME_KEY).getEntry(biomeKey).ifPresent(entry -> {
+                RegistryKey<Biome> biomeKey = RegistryKey.of(RegistryKeys.BIOME, biomeId);
+                dynamicRegistryManager.get(RegistryKeys.BIOME).getEntry(biomeKey).ifPresent(entry -> {
                     entries.add(entry);
                     modified[0] = true;
                 });

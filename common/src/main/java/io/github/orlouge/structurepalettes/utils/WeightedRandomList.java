@@ -36,7 +36,12 @@ public class WeightedRandomList<T> implements Iterable<T> {
     }
 
     public T popSample(Random random) {
-        Map.Entry<Double, T> sample = weightMap.higherEntry(random.nextDouble() * this.totalWeight);
+        Map.Entry<Double, T> sample;
+        if (weightMap.size() == 1) {
+            sample = weightMap.firstEntry();
+        } else {
+            sample = weightMap.higherEntry(random.nextDouble() * this.totalWeight);
+        }
         if (sample != null) {
             Map.Entry<Double, T> previous = weightMap.lowerEntry(sample.getKey());
             double diff = previous == null ? sample.getKey() : sample.getKey() - previous.getKey();

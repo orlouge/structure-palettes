@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[41,)"
+loaderVersion = "[44,)"
 #issueTrackerURL = ""
 license = "MIT"
 
@@ -16,7 +16,7 @@ A mod that randomly replaces blocks in structures
 [[dependencies.examplemod]]
 modId = "forge"
 mandatory = true
-versionRange = "[41,)"
+versionRange = "[44,)"
 ordering = "NONE"
 side = "BOTH"
 
