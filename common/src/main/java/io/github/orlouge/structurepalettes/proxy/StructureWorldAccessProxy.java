@@ -106,7 +106,7 @@ public class StructureWorldAccessProxy implements StructureWorldAccess {
 
     @Override
     public MinecraftServer getServer() {
-        return this.getServer();
+        return this.world.getServer();
     }
 
     @Override
@@ -161,7 +161,7 @@ public class StructureWorldAccessProxy implements StructureWorldAccess {
 
     @Override
     public WorldBorder getWorldBorder() {
-        return this.getWorldBorder();
+        return this.world.getWorldBorder();
     }
 
     @Override
