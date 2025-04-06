@@ -59,8 +59,8 @@ public class Config {
                 targetBlock = "(([0-9.]+)%?\\s+)?(([A-z_\\-/.][A-z_0-9\\-/.]*:)?[A-z_\\-/.][A-z_0-9\\-/.]*|%[A-z_][A-z_0-9]*:[A-z_][A-z_0-9]*|\\?)",
                 targetBlocks = "(?<targetblocks>" + targetBlock + "(\\s*,\\s*" + targetBlock + ")*)\\s*",
                 paletteDefinitionBody = sourceBlock + "\\s*(?<mappingconditions>\\(\\s*" + conditions + "\\s*\\))?\\s*" + "\\s*->\\s*" + targetBlocks,
-                targetStructure = "((?<structure>([A-z_\\-/.][A-z_0-9\\-/.]*:)?[A-z_\\-/.]+)|\\*)",
-                targetBiome = "(?<biome>([A-z_\\-/.][A-z_0-9\\-/.]*:)?[A-z_\\-/.]+|\\*)(\\s*(?<biomeadd>\\+))?",
+                targetStructure = "((?<structure>([A-z_\\-/.][A-z_0-9\\-/.]*:)?[A-z_\\-/.][A-z_0-9\\-/.]*)|\\*)",
+                targetBiome = "(?<biome>([A-z_\\-/.][A-z_0-9\\-/.]*:)?[A-z_\\-/.][A-z_0-9\\-/.]*|\\*)(\\s*(?<biomeadd>\\+))?",
                 paletteGroupUsage = "(?<palettegroup>[A-z_][A-z_0-9]*)",
                 structureTransformation =
                         "((?<chance>[0-9.]+)%\\s)?\\s*" +
